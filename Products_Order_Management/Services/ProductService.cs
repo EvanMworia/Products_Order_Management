@@ -1,4 +1,5 @@
-﻿using Products_Order_Management.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Products_Order_Management.Data;
 using Products_Order_Management.Models;
 using Products_Order_Management.Services.IServices;
 
@@ -12,9 +13,11 @@ namespace Products_Order_Management.Services
             _context = context;
         }
 
-        public Task<bool> AddProduct(Products newProduct)
+        public async Task<string> AddProduct(Products newProduct)
         {
-            throw new NotImplementedException();
+           await _context.Products.AddAsync(newProduct);
+            return "Product added successfully";
+            
         }
 
         public Task<bool> CheckAvailability(Guid ProductId)
@@ -22,19 +25,19 @@ namespace Products_Order_Management.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Products>> GetAllProducts()
+        public async Task<List<Products>> GetAllProducts()
         {
-            throw new NotImplementedException();
+            return await _context.Products.ToListAsync();
         }
 
-        public Task<List<Orders>> GetOrdersMade(Guid ProductId)
+        public async Task<List<Orders>> GetOrdersMade(Guid ProductId)
         {
-            throw new NotImplementedException();
+            return await _context.Orders.Where(x =>  x.ProductId == ProductId).ToListAsync();
         }
 
-        public Task<Products> GetProductById(Guid ProductId)
+        public async Task<Products> GetProductById(Guid ProductId)
         {
-            throw new NotImplementedException();
+            return await _context.Products.Where(x => x.ProductId == ProductId).FirstOrDefaultAsync();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Products_Order_Management.Services.IServices
 {
     public interface IProduct
     {
-        Task<bool> AddProduct(Products newProduct);
+        Task<string> AddProduct(Products newProduct);
         Task<List<Products>> GetAllProducts();
         Task<Products> GetProductById(Guid ProductId);
 
