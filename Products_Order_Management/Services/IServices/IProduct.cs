@@ -10,6 +10,6 @@ namespace Products_Order_Management.Services.IServices
 
         Task<List<Orders>> GetOrdersMade(Guid ProductId);
 
-        Task<bool> CheckAvailability(Guid ProductId);
+        //Task<bool> CheckAvailability(Guid ProductId);
     }
 }

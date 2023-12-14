@@ -19,12 +19,6 @@ namespace Products_Order_Management.Services
             return "Product added successfully";
             
         }
-
-        public Task<bool> CheckAvailability(Guid ProductId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<Products>> GetAllProducts()
         {
             return await _context.Products.ToListAsync();
@@ -37,6 +31,7 @@ namespace Products_Order_Management.Services
 
         public async Task<Products> GetProductById(Guid ProductId)
         {
+            //remember to check if its null return an error
             return await _context.Products.Where(x => x.ProductId == ProductId).FirstOrDefaultAsync();
         }
     }
