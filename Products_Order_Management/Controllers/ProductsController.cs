@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Products_Order_Management.Data;
 using Products_Order_Management.Models;
 using Products_Order_Management.Models.DTOs;
 using Products_Order_Management.Services.IServices;
@@ -14,10 +16,12 @@ namespace Products_Order_Management.Controllers
     {
         private readonly IProduct _productService;
         private readonly IMapper _mapper;
-        public ProductsController(IProduct product, IMapper mapper)
+        private readonly DataContext _context;
+        public ProductsController(IProduct product, IMapper mapper, DataContext context)
         {
             _productService = product;
             _mapper = mapper;
+            _context = context;
             
         }
 
@@ -61,5 +65,61 @@ namespace Products_Order_Management.Controllers
         //    return Ok(orders);
 
         //}
+
+
+
+
+        // endpoint for filtering by product name
+
+        [HttpGet("filter-by-name")]
+        public async Task<ActionResult<List<Products>>> GetProductsByName([FromQuery] string productName)
+        {
+            try
+            {
+                // Validate and sanitize input values
+                if (string.IsNullOrWhiteSpace(productName))
+                {
+                    return BadRequest("Product name is required.");
+                }
+
+                // Perform filtering by product name
+                var filteredProducts = await _context.Products
+                    .Where(p => p.Name.Contains(productName, StringComparison.OrdinalIgnoreCase))
+                    .ToListAsync();
+
+                return Ok(filteredProducts);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, log errors, and return an appropriate response
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+        //Filtering by name and price
+        [HttpGet("filter-by-name-and-price")]
+        public async Task<ActionResult<List<Products>>> GetProductsByNameAndPrice([FromQuery] string productName, [FromQuery] decimal price)
+        {
+            try
+            {
+                // Validate and sanitize input values
+                if (string.IsNullOrWhiteSpace(productName))
+                {
+                    return BadRequest("Product name is required.");
+                }
+
+                // Perform filtering by product name and price
+                var filteredProducts = await _context.Products
+                    .Where(p => p.Name.Contains(productName, StringComparison.OrdinalIgnoreCase) && p.Price == price)
+                    .ToListAsync();
+
+                return Ok(filteredProducts);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, log errors, and return an appropriate response
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
     }
 }
