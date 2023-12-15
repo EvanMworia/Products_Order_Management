@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Products_Order_Management.Data;
-using Products_Order_Management.Services;
-using Products_Order_Management.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +14,6 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("myConnString"));
 });
-
-//Register a service for Dependency Injection
-builder.Services.AddScoped<IProduct, ProductService>();
-
-//Declaring/ Connecting/ Registering AutoMapper 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 
 var app = builder.Build();
 

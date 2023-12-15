@@ -1,5 +1,4 @@
 ﻿using Products_Order_Management.Models;
-using Products_Order_Management.Models.DTOs;
 
 namespace Products_Order_Management.Services.IServices
 {

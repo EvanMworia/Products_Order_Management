@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Products_Order_Management.Data;
 using Products_Order_Management.Models;
-using Products_Order_Management.Models.DTOs;
 using Products_Order_Management.Services.IServices;
 
 namespace Products_Order_Management.Services
@@ -17,7 +16,6 @@ namespace Products_Order_Management.Services
         public async Task<string> AddProduct(Products newProduct)
         {
            await _context.Products.AddAsync(newProduct);
-            await _context.SaveChangesAsync();
             return "Product added successfully";
             
         }
