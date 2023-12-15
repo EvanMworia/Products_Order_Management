@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 //Register a service for Dependency Injection
 builder.Services.AddScoped<IProduct, ProductService>();
+builder.Services.AddScoped<IOrders, OrderService>();
 
 //Declaring/ Connecting/ Registering AutoMapper 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
